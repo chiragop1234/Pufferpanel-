@@ -20,8 +20,14 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
     chmod -R 755 storage bootstrap && \
     php artisan pufferpanel:install --admin.email=$PUFFERPANEL_ADMIN_EMAIL --admin.password=$PUFFERPANEL_ADMIN_PASSWORD
 
-# Expose port 80
-EXPOSE 80
+# Expose port 8080
+EXPOSE 8080
+
+# Create necessary directories and volumes
+RUN mkdir -p /var/lib/pufferpanel
+VOLUME /etc/pufferpanel
+VOLUME /var/lib/pufferpanel
+VOLUME /var/run/docker.sock
 
 # Start Apache
 CMD ["apache2-foreground"]
